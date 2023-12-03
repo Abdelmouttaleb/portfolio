@@ -8,7 +8,7 @@ import { Avatar, Card } from "antd";
 
 const { Meta } = Card;
 
-const Home: React.FC = () => (
+const Layout: React.FC = () => (
   <Card
     style={{ width: 300 }}
     cover={
@@ -33,4 +33,4 @@ const Home: React.FC = () => (
   </Card>
 );
 
-export default Home;
+export default Layout;

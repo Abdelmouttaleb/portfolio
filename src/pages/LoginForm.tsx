@@ -1,37 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
+import Message from "../helpers/message.tsx";
 
-function RegistrationForm() {
-  const onFinish = (values: any) => {
-    console.log("Registration form values:", values);
+function LoginForm() {
+  const [showMessage, setShowMessage] = useState(false);
+  const refresh = () => {
+    window.location.reload();
   };
-
+  const onFinish = (values: any) => {
+    const loginData = [values];
+    localStorage.setItem("loginData", JSON.stringify(loginData));
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 3000);
+    refresh();
+  };
   return (
     <Form onFinish={onFinish}>
-      <Form.Item
-        name="firstName"
-        label="First Name"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your first name!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="lastName"
-        label="Last Name"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your last name!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      {showMessage && <Message />}
       <Form.Item
         name="email"
         label="Email"
@@ -62,11 +49,11 @@ function RegistrationForm() {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Register
+          Login
         </Button>
       </Form.Item>
     </Form>
   );
 }
 
-export default RegistrationForm;
+export default LoginForm;

@@ -1,19 +1,31 @@
-import React from "react";
-import { Row, Col } from "antd";
-import RegistrationForm from "./components/RegistrationForm.tsx";
-import LoginForm from "./components/LoginForm.tsx";
-import Home from "./components/Home.tsx";
+import React, { createContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import RegistrationForm from "./pages/RegistrationForm.tsx";
+import LoginForm from "./pages/LoginForm.tsx";
+import Home from "./pages/Home.tsx";
+import Layout from "./pages/Layout.tsx";
+import Header from "./components/Header.tsx";
+import Footer from "./components/Footer.tsx";
+import { getIsUserLogedin } from "./helpers/getUserInfo.ts";
+
+const Logedin = getIsUserLogedin();
+export const LogedinContext = createContext(false);
 
 function App() {
   return (
-    <>
-      <h2>Registration</h2>
-      <RegistrationForm />
-      <h2>Login</h2>
-      <LoginForm />
-      <h2>Main</h2>
-      <Home />
-    </>
+    <LogedinContext.Provider value={Logedin}>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/layout"
+          element={Logedin ? <Layout /> : <Navigate to="/login" />}
+        />
+        <Route path="/registration" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginForm />} />
+      </Routes>
+      <Footer />
+    </LogedinContext.Provider>
   );
 }
 
